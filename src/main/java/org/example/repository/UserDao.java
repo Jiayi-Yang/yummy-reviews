@@ -36,14 +36,14 @@ public class UserDao {
                 Long userId  = rs.getLong("user_id");
                 String email = rs.getString("email");
                 String password = rs.getString("password");
-                String username = rs.getString("username");
+                String username = rs.getString("user_name");
                 Timestamp createdOn = rs.getTimestamp("created_on");
                 //Fill the object
                 User user = new User();
                 user.setUserId(userId);
                 user.setEmail(email);
                 user.setPassword(password);
-                user.setUserName(username);
+                user.setUsername(username);
                 user.setCreatedOn(createdOn);
                 users.add(user);
             }

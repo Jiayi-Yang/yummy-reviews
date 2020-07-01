@@ -7,18 +7,27 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class UserDaoTest {
-    private UserDao userJDBCDao;
+
+    UserDao userJDBCDao = new UserDao();
+    //private UserDao userJDBCDao;
 
     @Before
     public void setUp(){
-        userJDBCDao = new UserDao();
+//        User user = new User();
+//        user.setUserName("testUser");
+//        user.setPassword("123xxx");
+//        user.save(user);
+       // userJDBCDao = new UserDao();
+
     }
     @After
     public void tearDown(){
-        userJDBCDao=null;
+//        user.delete();
+//        userJDBCDao=null;
     }
+
     @Test
     public void getUsersTest(){
-        assertEquals(1,userJDBCDao.getUsers().size());
+        assertEquals(3,userJDBCDao.getUsers().size());
     }
 }
