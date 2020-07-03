@@ -15,7 +15,7 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
-    @Column(name = "user_name")
+    @Column(name = "username")
     private String username;
     @Column(name = "created_on")
     private Timestamp createdOn;
