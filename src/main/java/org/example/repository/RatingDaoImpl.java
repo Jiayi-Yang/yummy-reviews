@@ -1,5 +1,6 @@
 package org.example.repository;
 
+import org.example.model.Rating;
 import org.example.model.User;
 import org.example.util.HibernateUtil;
 import org.hibernate.HibernateException;
@@ -13,19 +14,19 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoImpl implements UserDao{
+public class RatingDaoImpl implements RatingDao{
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Override
-    public User save(User user) {
+    public Rating save(Rating rating) {
         Transaction transaction = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
-            s.save(user);
+            s.save(rating);
             transaction.commit();
             s.close();
-            return user;
+            return rating;
         } catch (Exception e){
             if (transaction != null) transaction.rollback();
             logger.error("fail to insert record");
@@ -35,13 +36,13 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User update(User user) {
+    public Rating update(Rating rating) {
         return null;
     }
 
     @Override
-    public boolean delete(User user) {
-        String hql = "DELETE User as u WHERE u.userId = :Id";
+    public boolean delete(Rating rating) {
+        String hql = "DELETE Rating as u WHERE u.ratingId = :Id";
         int deletedCount = 0;
         Transaction transaction = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -49,7 +50,7 @@ public class UserDaoImpl implements UserDao{
         try {
             transaction = s.beginTransaction();
             Query<User> query = s.createQuery(hql);
-            query.setParameter("Id", user.getUserId());
+            query.setParameter("Id", rating.getRatingId());
             deletedCount = query.executeUpdate();
             transaction.commit();
             s.close();
@@ -63,12 +64,12 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<Rating> getRatings() {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
-        String hql = "FROM User";
+        String hql = "FROM Rating";
         s.createQuery(hql);
-        List<User> result = new ArrayList<>();
+        List<Rating> result = new ArrayList<>();
         try {
             Query query = s.createQuery(hql);
             result = query.list();
@@ -81,36 +82,7 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User getBy(Long id) {
-        return null;
-    }
-
-    @Override
-    public User getUserEagerBy(Long id) {
-        String hql = "From User u LEFT JOIN FETCH u.ratings WHERE u.userId=:Id";
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session s = sessionFactory.openSession();
-        s.createQuery(hql);
-        try {
-            Query<User> query = s.createQuery(hql);
-            query.setParameter("Id", id);
-            User result = query.uniqueResult();
-            s.close();
-            return result;
-        } catch (HibernateException e){
-            logger.error("fail to retrieve data record", e);
-            s.close();
-            return null;
-        }
-    }
-
-    @Override
-    public User getUserByEmail(String email) {
-        return null;
-    }
-
-    @Override
-    public User getUserByUsername(String username) {
+    public Rating getBy(Long id) {
         return null;
     }
 }

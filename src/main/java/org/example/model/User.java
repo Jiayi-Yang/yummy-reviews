@@ -2,11 +2,12 @@ package org.example.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User {
-    public  User(){}
+    public User(){}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -19,6 +20,8 @@ public class User {
     private String username;
     @Column(name = "created_on")
     private Timestamp createdOn;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private Set<Rating> ratings;
 
     public long getUserId() {
         return userId+super.hashCode();
@@ -48,10 +51,6 @@ public class User {
         return username;
     }
 
-//    public void setUserName(String username){
-//        this.username = username;
-//    }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -61,6 +60,10 @@ public class User {
     }
     public void setCreatedOn(Timestamp createdOn){
         this.createdOn = createdOn;
+    }
+
+    public Set<Rating> getRatings() {
+        return ratings;
     }
 }
 
