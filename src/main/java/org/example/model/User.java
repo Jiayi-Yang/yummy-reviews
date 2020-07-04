@@ -24,7 +24,7 @@ public class User {
     private Set<Rating> ratings;
 
     public long getUserId() {
-        return userId+super.hashCode();
+        return userId;
     }
 
     public void setUserId (long userId){

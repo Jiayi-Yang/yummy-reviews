@@ -22,7 +22,7 @@ public class Rating {
     private User user;
 
     public long getRatingId() {
-        return ratingId+super.hashCode();
+        return ratingId;
     }
 
     public void setRatingId (long ratingId){

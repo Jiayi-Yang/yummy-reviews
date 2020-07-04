@@ -1,18 +1,27 @@
 package org.example.repository;
 
+import org.example.ApplicationBootstrap;
 import org.example.model.Rating;
 import org.example.model.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Timestamp;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes= ApplicationBootstrap.class)
 public class UserDaoTest {
+    @Autowired
     private UserDao userDao;
+    @Autowired
     private RatingDao ratingDao;
     private User u1;
     private Rating r1;
@@ -20,8 +29,6 @@ public class UserDaoTest {
 
     @Before
     public void SetUp(){
-        userDao = new UserDaoImpl();
-        ratingDao = new RatingDaoImpl();
 
         u1 = new User();
         u1.setEmail("test@gmail.com");
