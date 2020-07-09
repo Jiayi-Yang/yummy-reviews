@@ -38,7 +38,20 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User update(User user) {
-        return null;
+        Transaction transaction = null;
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session s = sessionFactory.openSession();
+        try {
+            transaction = s.beginTransaction();
+            s.saveOrUpdate(user);
+            transaction.commit();
+            return user;
+        } catch (HibernateException e){
+            if (transaction != null) transaction.rollback();
+            s.close();
+            logger.error("unable to update record", e);
+            return null;
+        }
     }
 
     @Override
@@ -84,7 +97,21 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getBy(Long id) {
-        return null;
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session s = sessionFactory.openSession();
+        String hql = "FROM User u WHERE u.userId=:Id";
+        s.createQuery(hql);
+        try {
+            Query<User> query = s.createQuery(hql);
+            query.setParameter("Id", id);
+            User result = query.uniqueResult();
+            s.close();
+            return result;
+        } catch (HibernateException e){
+            logger.error("session close exception try again", e);
+            s.close();
+            return null;
+        }
     }
 
     @Override
@@ -113,6 +140,20 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getUserByUsername(String username) {
-        return null;
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session s = sessionFactory.openSession();
+        String hql = "FROM User u WHERE u.username=:username";
+        s.createQuery(hql);
+        try {
+            Query<User> query = s.createQuery(hql);
+            query.setParameter("username", username);
+            User result = query.uniqueResult();
+            s.close();
+            return result;
+        } catch (HibernateException e){
+            logger.error("session close exception try again", e);
+            s.close();
+            return null;
+        }
     }
 }

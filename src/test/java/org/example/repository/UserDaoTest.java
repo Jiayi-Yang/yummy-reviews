@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -73,5 +74,29 @@ public class UserDaoTest {
         assertNotNull(user);
         assertEquals(user.getUsername(), u1.getUsername());
         assertTrue(user.getRatings().size()>0);
+    }
+
+    @Test
+    public void getByTest(){
+        User user = userDao.getBy(u1.getUserId());
+        assertNotNull(user);
+        assertEquals(user.getUsername(), u1.getUsername());
+        assertEquals(user.getEmail(), u1.getEmail());
+    }
+
+    @Test
+    public void updateUserTest(){
+        User user1 = userDao.getBy(u1.getUserId());
+        assertNotNull(user1);
+        user1.setUsername("newtest");
+        user1= userDao.update(user1);
+        assertNotNull(user1);
+        assertEquals(user1.getUsername(), "newtest");
+    }
+
+    @Test
+    public void getUserByUsernameTest(){
+        User user = userDao.getBy(u1.getUserId());
+        assertEquals(user.getUsername(), u1.getUsername());
     }
 }

@@ -1,5 +1,7 @@
 package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -21,6 +23,7 @@ public class User {
     @Column(name = "created_on")
     private Timestamp createdOn;
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Rating> ratings;
 
     public long getUserId() {
