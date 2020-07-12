@@ -1,7 +1,6 @@
 package org.example.repository;
 
 import org.example.model.Rating;
-import org.example.model.User;
 import org.example.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -25,7 +24,7 @@ public class RatingDaoImpl implements RatingDao{
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
-            s.save(rating);
+            s.saveOrUpdate(rating);
             transaction.commit();
             s.close();
             return rating;
@@ -44,14 +43,14 @@ public class RatingDaoImpl implements RatingDao{
 
     @Override
     public boolean delete(Rating rating) {
-        String hql = "DELETE Rating as u WHERE u.ratingId = :Id";
+        String hql = "DELETE Rating as r WHERE r.ratingId = :Id";
         int deletedCount = 0;
         Transaction transaction = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
-            Query<User> query = s.createQuery(hql);
+            Query<Rating> query = s.createQuery(hql);
             query.setParameter("Id", rating.getRatingId());
             deletedCount = query.executeUpdate();
             transaction.commit();

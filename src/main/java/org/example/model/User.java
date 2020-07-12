@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -22,9 +24,46 @@ public class User {
     private String username;
     @Column(name = "created_on")
     private Timestamp createdOn;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+
     @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Set<Rating> ratings;
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "users_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
+    private Set<Role> roles = new HashSet<>();
+
+    public void addRole(Role role){
+        this.roles.add(role);
+//        role.getUsers().add(this);
+    }
+    public void removeRole(Role role){
+        this.roles.remove(role);
+//        role.getUsers().remove(this);
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId == user.userId &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(createdOn, user.createdOn) &&
+                Objects.equals(ratings, user.ratings);
+    }
+
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(userId, email, password, username, createdOn);
+//    }
 
     public long getUserId() {
         return userId;
@@ -67,6 +106,10 @@ public class User {
 
     public Set<Rating> getRatings() {
         return ratings;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 }
 

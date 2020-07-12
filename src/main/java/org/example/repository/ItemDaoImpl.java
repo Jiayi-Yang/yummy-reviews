@@ -1,6 +1,6 @@
 package org.example.repository;
 
-import org.example.model.User;
+import org.example.model.Item;
 import org.example.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -15,19 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserDaoImpl implements UserDao{
+public class ItemDaoImpl implements ItemDao{
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Override
-    public User save(User user) {
+    public Item save(Item item) {
         Transaction transaction = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
-            s.saveOrUpdate(user);
+            s.saveOrUpdate(item);
             transaction.commit();
             s.close();
-            return user;
+            return item;
         } catch (Exception e){
             if (transaction != null) transaction.rollback();
             logger.error("fail to insert record");
@@ -37,15 +37,15 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User update(User user) {
+    public Item update(Item item) {
         Transaction transaction = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
-            s.saveOrUpdate(user);
+            s.saveOrUpdate(item);
             transaction.commit();
-            return user;
+            return item;
         } catch (HibernateException e){
             if (transaction != null) transaction.rollback();
             s.close();
@@ -55,16 +55,16 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public boolean delete(User user) {
-        String hql = "DELETE User as u WHERE u.userId = :Id";
+    public boolean delete(Item item) {
+        String hql = "DELETE Item as i WHERE i.itemId = :Id";
         int deletedCount = 0;
         Transaction transaction = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
-            Query<User> query = s.createQuery(hql);
-            query.setParameter("Id", user.getUserId());
+            Query<Item> query = s.createQuery(hql);
+            query.setParameter("Id", item.getItemId());
             deletedCount = query.executeUpdate();
             transaction.commit();
             s.close();
@@ -78,12 +78,12 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<Item> getItems() {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
-        String hql = "FROM User";
+        String hql = "FROM Item";
         s.createQuery(hql);
-        List<User> result = new ArrayList<>();
+        List<Item> result = new ArrayList<>();
         try {
             Query query = s.createQuery(hql);
             result = query.list();
@@ -96,79 +96,21 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User getBy(Long id) {
+    public Item getBy(Long id) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
-        String hql = "FROM User u WHERE u.userId=:Id";
+        String hql = "FROM Item i WHERE i.itemId=:Id";
         s.createQuery(hql);
         try {
-            Query<User> query = s.createQuery(hql);
+            Query<Item> query = s.createQuery(hql);
             query.setParameter("Id", id);
-            User result = query.uniqueResult();
+            Item result = query.uniqueResult();
             s.close();
             return result;
-        } catch (HibernateException e){
+        } catch (HibernateException e) {
             logger.error("session close exception try again", e);
             s.close();
             return null;
         }
     }
-
-    @Override
-    public User getUserEagerBy(Long id) {
-        String hql = "From User u LEFT JOIN FETCH u.ratings WHERE u.userId=:Id";
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session s = sessionFactory.openSession();
-        s.createQuery(hql);
-        try {
-            Query<User> query = s.createQuery(hql);
-            query.setParameter("Id", id);
-            User result = query.uniqueResult();
-            s.close();
-            return result;
-        } catch (HibernateException e){
-            logger.error("fail to retrieve data record", e);
-            s.close();
-            return null;
-        }
-    }
-
-    @Override
-    public User getUserByEmail(String email) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session s = sessionFactory.openSession();
-        String hql = "FROM User u WHERE u.email=:email";
-        s.createQuery(hql);
-        try {
-            Query<User> query = s.createQuery(hql);
-            query.setParameter("email", email);
-            User result = query.uniqueResult();
-            return result;
-        } catch (HibernateException e){
-            logger.error("session close exception try again", e);
-            return null;
-        } finally {
-            s.close();
-        }
-    }
-
-    @Override
-    public User getUserByUsername(String username) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session s = sessionFactory.openSession();
-        String hql = "FROM User u WHERE u.username=:username";
-        s.createQuery(hql);
-        try {
-            Query<User> query = s.createQuery(hql);
-            query.setParameter("username", username);
-            User result = query.uniqueResult();
-            s.close();
-            return result;
-        } catch (HibernateException e){
-            logger.error("session close exception try again", e);
-            s.close();
-            return null;
-        }
-    }
-
 }

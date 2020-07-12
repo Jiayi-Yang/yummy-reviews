@@ -2,6 +2,7 @@ package org.example.repository;
 
 import org.example.ApplicationBootstrap;
 import org.example.model.Rating;
+import org.example.model.Role;
 import org.example.model.User;
 import org.junit.After;
 import org.junit.Before;
@@ -24,41 +25,60 @@ public class UserDaoTest {
     private UserDao userDao;
     @Autowired
     private RatingDao ratingDao;
-    private User u1;
-    private Rating r1;
-    private Rating r2;
+    @Autowired
+    private RoleDao roleDao;
+
+    private User user1;
+    private Rating rating1;
+    private Rating rating2;
+    private Role role1;
+    private Role role2;
+    private String email = "test@gmail.com";
 
     @Before
     public void SetUp(){
 
-        u1 = new User();
-        u1.setEmail("test@gmail.com");
-        u1.setPassword("password");
-        u1.setUsername("test");
+        user1 = new User();
+        user1.setEmail(email);
+        user1.setPassword("password");
+        user1.setUsername("test");
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        u1.setCreatedOn(timestamp);
-        u1=userDao.save(u1);
+        user1.setCreatedOn(timestamp);
+        user1=userDao.save(user1);
 
-        r1 = new Rating();
-        r1.setRatingScore(9);
-        r1.setGoodReview("yummy");
-        r1.setBadReview("expensive");
-        r1.setUser(u1);
-        ratingDao.save(r1);
+        rating1 = new Rating();
+        rating1.setRatingScore(9);
+        rating1.setGoodReview("yummy");
+        rating1.setBadReview("expensive");
+        rating1.setUser(user1);
+        rating1=ratingDao.save(rating1);
 
-        r2 = new Rating();
-        r2.setRatingScore(8);
-        r2.setGoodReview("yummy");
-        r2.setBadReview("too spicy");
-        r2.setUser(u1);
-        ratingDao.save(r2);
+        rating2 = new Rating();
+        rating2.setRatingScore(8);
+        rating2.setGoodReview("yummy");
+        rating2.setBadReview("too spicy");
+        rating2.setUser(user1);
+        rating2=ratingDao.save(rating2);
+
+        role1 = new Role();
+        role1.setName("VP");
+        role1.setAllowedCreate(true);
+        role1.setAllowedDelete(true);
+        role1.setAllowedRead(true);
+        role1.setAllowedResource("/depts,/departments,/employees,/ems,/acnts,/accounts");
+        role1.setAllowedUpdate(true);
+        role1 = roleDao.save(role1);
+        user1.addRole(role1);
+        user1 = userDao.save(user1);
 
     }
     @After
     public void tearDown(){
-        ratingDao.delete(r1);
-        ratingDao.delete(r2);
-        userDao.delete(u1);
+        ratingDao.delete(rating1);
+        ratingDao.delete(rating2);
+
+        roleDao.delete(role1);
+        userDao.delete(user1);
     }
 
     @Test
@@ -70,33 +90,39 @@ public class UserDaoTest {
 
     @Test
     public void getUserEagerByTest(){
-        User user = userDao.getUserEagerBy(u1.getUserId());
+        User user = userDao.getUserEagerBy(user1.getUserId());
         assertNotNull(user);
-        assertEquals(user.getUsername(), u1.getUsername());
+        assertEquals(user.getUsername(), user1.getUsername());
         assertTrue(user.getRatings().size()>0);
     }
 
     @Test
     public void getByTest(){
-        User user = userDao.getBy(u1.getUserId());
+        User user = userDao.getBy(user1.getUserId());
         assertNotNull(user);
-        assertEquals(user.getUsername(), u1.getUsername());
-        assertEquals(user.getEmail(), u1.getEmail());
+        assertEquals(user.getUsername(), user1.getUsername());
+        assertEquals(user.getEmail(), user1.getEmail());
     }
 
     @Test
     public void updateUserTest(){
-        User user1 = userDao.getBy(u1.getUserId());
-        assertNotNull(user1);
-        user1.setUsername("newtest");
-        user1= userDao.update(user1);
-        assertNotNull(user1);
-        assertEquals(user1.getUsername(), "newtest");
+        User user = userDao.getBy(user1.getUserId());
+        assertNotNull(user);
+        user.setUsername("newtest");
+        user= userDao.update(user);
+        assertNotNull(user);
+        assertEquals(user.getUsername(), "newtest");
     }
 
     @Test
     public void getUserByUsernameTest(){
-        User user = userDao.getBy(u1.getUserId());
-        assertEquals(user.getUsername(), u1.getUsername());
+        User user = userDao.getBy(user1.getUserId());
+        assertEquals(user.getUsername(), user1.getUsername());
+    }
+
+    @Test
+    public void getUserWithRole(){
+        User user = userDao.getUserByEmail(email);
+        assertEquals(user.getRoles().size(),1);
     }
 }

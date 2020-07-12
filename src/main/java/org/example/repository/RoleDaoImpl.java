@@ -1,6 +1,6 @@
 package org.example.repository;
 
-import org.example.model.User;
+import org.example.model.Role;
 import org.example.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -9,25 +9,29 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserDaoImpl implements UserDao{
+public class RoleDaoImpl implements RoleDao{
+//    @Autowired
+//    private SessionFactory sessionFactory;
+
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Override
-    public User save(User user) {
+    public Role save(Role role) {
         Transaction transaction = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
-            s.saveOrUpdate(user);
+            s.saveOrUpdate(role);
             transaction.commit();
             s.close();
-            return user;
+            return role;
         } catch (Exception e){
             if (transaction != null) transaction.rollback();
             logger.error("fail to insert record");
@@ -37,15 +41,15 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User update(User user) {
+    public Role update(Role role) {
         Transaction transaction = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
-            s.saveOrUpdate(user);
+            s.saveOrUpdate(role);
             transaction.commit();
-            return user;
+            return role;
         } catch (HibernateException e){
             if (transaction != null) transaction.rollback();
             s.close();
@@ -55,16 +59,16 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public boolean delete(User user) {
-        String hql = "DELETE User as u WHERE u.userId = :Id";
+    public boolean delete(Role role) {
+        String hql = "DELETE Role as r WHERE r.roleId = :Id";
         int deletedCount = 0;
         Transaction transaction = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
-            Query<User> query = s.createQuery(hql);
-            query.setParameter("Id", user.getUserId());
+            Query<Role> query = s.createQuery(hql);
+            query.setParameter("Id", role.getId());
             deletedCount = query.executeUpdate();
             transaction.commit();
             s.close();
@@ -78,12 +82,12 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<Role> getRoles() {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
-        String hql = "FROM User";
+        String hql = "FROM Role";
         s.createQuery(hql);
-        List<User> result = new ArrayList<>();
+        List<Role> result = new ArrayList<>();
         try {
             Query query = s.createQuery(hql);
             result = query.list();
@@ -96,18 +100,18 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User getBy(Long id) {
+    public Role getBy(Long id) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
-        String hql = "FROM User u WHERE u.userId=:Id";
+        String hql = "FROM Role r WHERE r.id=:Id";
         s.createQuery(hql);
         try {
-            Query<User> query = s.createQuery(hql);
+            Query<Role> query = s.createQuery(hql);
             query.setParameter("Id", id);
-            User result = query.uniqueResult();
+            Role result = query.uniqueResult();
             s.close();
             return result;
-        } catch (HibernateException e){
+        } catch (HibernateException e) {
             logger.error("session close exception try again", e);
             s.close();
             return null;
@@ -115,60 +119,21 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User getUserEagerBy(Long id) {
-        String hql = "From User u LEFT JOIN FETCH u.ratings WHERE u.userId=:Id";
+    public Role getRolebyName(String name) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
+        String hql = "FROM Role r WHERE r.name=:name";
         s.createQuery(hql);
         try {
-            Query<User> query = s.createQuery(hql);
-            query.setParameter("Id", id);
-            User result = query.uniqueResult();
+            Query<Role> query = s.createQuery(hql);
+            query.setParameter("name", name);
+            Role result = query.uniqueResult();
             s.close();
             return result;
-        } catch (HibernateException e){
-            logger.error("fail to retrieve data record", e);
-            s.close();
-            return null;
-        }
-    }
-
-    @Override
-    public User getUserByEmail(String email) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session s = sessionFactory.openSession();
-        String hql = "FROM User u WHERE u.email=:email";
-        s.createQuery(hql);
-        try {
-            Query<User> query = s.createQuery(hql);
-            query.setParameter("email", email);
-            User result = query.uniqueResult();
-            return result;
-        } catch (HibernateException e){
-            logger.error("session close exception try again", e);
-            return null;
-        } finally {
-            s.close();
-        }
-    }
-
-    @Override
-    public User getUserByUsername(String username) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session s = sessionFactory.openSession();
-        String hql = "FROM User u WHERE u.username=:username";
-        s.createQuery(hql);
-        try {
-            Query<User> query = s.createQuery(hql);
-            query.setParameter("username", username);
-            User result = query.uniqueResult();
-            s.close();
-            return result;
-        } catch (HibernateException e){
+        } catch (HibernateException e) {
             logger.error("session close exception try again", e);
             s.close();
             return null;
         }
     }
-
 }

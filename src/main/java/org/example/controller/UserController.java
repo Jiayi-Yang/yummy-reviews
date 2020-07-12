@@ -15,11 +15,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // {prefix}/user/
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public List<User> getUsers(){
-        return userService.getUsers();
-    }
+//    // {prefix}/user/
+//    @RequestMapping(value = "", method = RequestMethod.GET)
+//    public List<User> getUsers(){
+//        return userService.getUsers();
+//    }
     // {prefix}/user/1 GET
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public User getUserById(@PathVariable(name = "id") Long id){
