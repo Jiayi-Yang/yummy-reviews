@@ -27,7 +27,7 @@ public class RoleDaoTest {
     @Before
     public void SetUp(){
         role1 = new Role();
-        role1.setName("Manager");
+        role1.setName("VP");
         role1.setAllowedCreate(true);
         role1.setAllowedDelete(true);
         role1.setAllowedRead(true);
@@ -44,7 +44,7 @@ public class RoleDaoTest {
     @Test
     public void getRolesTest(){
         List<Role> roles = roleDao.getRoles();
-        int expectedNumberOfRole = 1;
+        int expectedNumberOfRole = 4;
         assertEquals(expectedNumberOfRole, roles.size());
     }
 }

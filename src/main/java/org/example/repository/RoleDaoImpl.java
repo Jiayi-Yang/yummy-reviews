@@ -60,7 +60,7 @@ public class RoleDaoImpl implements RoleDao{
 
     @Override
     public boolean delete(Role role) {
-        String hql = "DELETE Role as r WHERE r.roleId = :Id";
+        String hql = "DELETE Role as r WHERE r.id = :id";
         int deletedCount = 0;
         Transaction transaction = null;
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -68,7 +68,7 @@ public class RoleDaoImpl implements RoleDao{
         try {
             transaction = s.beginTransaction();
             Query<Role> query = s.createQuery(hql);
-            query.setParameter("Id", role.getId());
+            query.setParameter("id", role.getId());
             deletedCount = query.executeUpdate();
             transaction.commit();
             s.close();
