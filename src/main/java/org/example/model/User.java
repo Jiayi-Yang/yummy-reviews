@@ -1,6 +1,7 @@
 package org.example.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -86,7 +87,7 @@ public class User {
     }
 
     public void setPassword(String password){
-        this.password = password;
+        this.password = DigestUtils.md5Hex(password.trim());;
     }
 
     public String getUsername() {

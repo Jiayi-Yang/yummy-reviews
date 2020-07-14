@@ -171,4 +171,24 @@ public class UserDaoImpl implements UserDao{
         }
     }
 
+    @Override
+    public User getUserByCredentials(String username, String password) {
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session s = sessionFactory.openSession();
+        String hql = "FROM User u WHERE u.username=:username AND u.password=:password";
+        s.createQuery(hql);
+        try {
+            Query<User> query = s.createQuery(hql);
+            query.setParameter("username", username);
+            query.setParameter("password", password);
+            User result = query.uniqueResult();
+            return result;
+        } catch (HibernateException e){
+            logger.error("session close exception try again", e);
+            return null;
+        } finally {
+            s.close();
+        }
+    }
+
 }

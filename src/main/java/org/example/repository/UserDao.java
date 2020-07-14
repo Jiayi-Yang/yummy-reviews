@@ -12,4 +12,5 @@ public interface UserDao{
     User getUserEagerBy(Long id);
     User getUserByEmail(String email);
     User getUserByUsername(String username);
+    User getUserByCredentials(String username, String password);
 }

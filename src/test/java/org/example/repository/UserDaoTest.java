@@ -125,4 +125,11 @@ public class UserDaoTest {
         User user = userDao.getUserByEmail(email);
         assertEquals(user.getRoles().size(),1);
     }
+
+    @Test
+    public void getUserByCredentialsTest(){
+        User user = userDao.getUserByCredentials(user1.getUsername(), user1.getPassword());
+        assertEquals(user.getUsername(), user1.getUsername());
+        assertEquals(user.getEmail(), user1.getEmail());
+    }
 }
