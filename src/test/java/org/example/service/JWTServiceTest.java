@@ -31,7 +31,7 @@ public class JWTServiceTest {
     @Before
     public void SetUp(){
         user1 = new User();
-        user1.setUserId(1L);
+        user1.setUserId(10L);
         user1.setUsername("test");
 
         role1 = new Role();

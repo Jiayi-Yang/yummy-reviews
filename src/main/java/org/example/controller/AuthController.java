@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping(value = "/auth")
 public class AuthController {
@@ -21,12 +24,14 @@ public class AuthController {
     private String tokenType = "Bearer";
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public String authentication(@RequestBody User user){
+    public Map<String, String> authentication(@RequestBody User user){
         logger.debug("username is " + user.getUsername());
         try{
             User u = userService.getUSerByCredentials(user.getUsername(), user.getPassword());
             String token = jwtService.generateToken(u);
-            return token;
+            Map<String,String> t = new HashMap<>();
+            t.put("token",token);
+            return t;
         } catch (Exception e){
             e.printStackTrace();
         }
