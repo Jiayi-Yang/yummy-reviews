@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import org.example.ApplicationBootstrap;
 import org.example.model.Role;
 import org.example.model.User;
-import org.example.repository.RatingDao;
 import org.example.repository.RoleDao;
 import org.example.repository.UserDao;
 import org.junit.After;
@@ -44,7 +43,7 @@ public class JWTServiceTest {
         role1.setAllowedUpdate(true);
         role1 = roleDao.save(role1);
         user1.addRole(role1);
-        user1 = userDao.save(user1);
+        userDao.save(user1);
     }
 
     @After
