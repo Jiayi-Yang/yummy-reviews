@@ -26,8 +26,6 @@ public class AWSS3Service {
         amazonS3 = getS3ClientUsingDefaultChain();
     }
 
-//    private String myAWSAccessKeyId="AKIA4IYBBYERTPULKG6L";
-//    private String myAWSSecretKey="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";
     private AmazonS3 getS3ClientWithSuppliedCredentials() {
         BasicAWSCredentials awsCreds = new BasicAWSCredentials("aws.accessKeyId", "aws.secretKey");
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
