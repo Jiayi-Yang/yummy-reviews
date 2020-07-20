@@ -98,8 +98,8 @@ public class Role {
                 Objects.equals(allowedDelete, role.allowedDelete);
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id, name, allowedResource, allowedRead, allowedCreate, allowedUpdate, allowedDelete);
-//    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, allowedResource, allowedRead, allowedCreate, allowedUpdate, allowedDelete);
+    }
 }

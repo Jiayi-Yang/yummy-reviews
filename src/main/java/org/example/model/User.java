@@ -61,10 +61,10 @@ public class User {
                 Objects.equals(ratings, user.ratings);
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(userId, email, password, username, createdOn);
-//    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, email, password, username, createdOn);
+    }
 
     public long getUserId() {
         return userId;
