@@ -6,33 +6,25 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
 
 @Service
 public class AWSS3Service {
     private Logger logger = LoggerFactory.getLogger(getClass());
+
     private AmazonS3 amazonS3;
 
-    public AmazonS3 getAmazonS3() {
-        return amazonS3;
-    }
-
-    public void setAmazonS3(AmazonS3 amazonS3) {
+    public AWSS3Service(@Autowired AmazonS3 amazonS3){
         this.amazonS3 = amazonS3;
     }
-    public AWSS3Service(){
-        amazonS3 = getS3ClientUsingDefaultChain();
-    }
 
-    private AmazonS3 getS3ClientWithSuppliedCredentials() {
-        BasicAWSCredentials awsCreds = new BasicAWSCredentials("aws.accessKeyId", "aws.secretKey");
-        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-                .build();
-        return s3Client;
-    }
     public Bucket createBucket(String bucketName) {
         Bucket bucket = null;
         if(!amazonS3.doesBucketExistV2(bucketName)) {
@@ -43,12 +35,12 @@ public class AWSS3Service {
         }
         return bucket;
     }
+    public void uploadFile(File f) throws IOException{
+        // Upload a file as a new object with ContentType and title specified.
+        String bucketName = "jyang-s3-bucket-test";
+        PutObjectRequest request = new PutObjectRequest(bucketName, f.getName(), f);
+        amazonS3.putObject(request);
 
-    private AmazonS3 getS3ClientUsingDefaultChain() {
-        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                .withRegion(Regions.US_EAST_1)
-                .build();
-        return s3Client;
     }
 
 }
