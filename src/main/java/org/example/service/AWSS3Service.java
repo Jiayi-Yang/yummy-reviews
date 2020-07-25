@@ -14,12 +14,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 @Service
 public class AWSS3Service {
     private Logger logger = LoggerFactory.getLogger(getClass());
-
     private AmazonS3 amazonS3;
+    String bucketName = "jyang-s3-bucket-test";
 
     public AWSS3Service(@Autowired AmazonS3 amazonS3){
         this.amazonS3 = amazonS3;
@@ -36,11 +37,18 @@ public class AWSS3Service {
         return bucket;
     }
     public void uploadFile(File f) throws IOException{
-        // Upload a file as a new object with ContentType and title specified.
-        String bucketName = "jyang-s3-bucket-test";
+        // Upload a file as a new object with raw file name
         PutObjectRequest request = new PutObjectRequest(bucketName, f.getName(), f);
         amazonS3.putObject(request);
 
     }
-
+    public void uploadFileUUID(File f) throws IOException{
+        // Upload a file as a new object with hashed file name
+        String originalName = f.getName();
+        UUID uuid = UUID.nameUUIDFromBytes(originalName.getBytes());
+        String[] originalNameArray = originalName.split("\\.");
+        String hashedName = originalNameArray[0] + uuid + "." + originalNameArray[1];
+        PutObjectRequest request = new PutObjectRequest(bucketName, hashedName, f);
+        amazonS3.putObject(request);
+    }
 }

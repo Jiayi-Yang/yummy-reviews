@@ -40,4 +40,10 @@ public class AWSS3ServiceTest {
         awss3Service.uploadFile(new File("/Users/jay/Downloads/logo.png"));
         verify(amazonS3,times(1)).putObject(any(PutObjectRequest.class));
     }
+
+    @Test
+    public void uploadFileUUIDTest() throws IOException{
+        awss3Service.uploadFileUUID(new File("/Users/jay/Downloads/logo.png"));
+        verify(amazonS3,times(1)).putObject(any(PutObjectRequest.class));
+    }
 }

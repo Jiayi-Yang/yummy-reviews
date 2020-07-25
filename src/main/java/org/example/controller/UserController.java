@@ -26,13 +26,13 @@ public class UserController {
         return userService.getBy(id);
     }
 
-    // {prefix}//user/?username=testuser GET
+    // {prefix}/user/?username=testuser GET
     @RequestMapping(value = "/", method = RequestMethod.GET, params = {"username"})
     public User getUserByUsername(@RequestParam(name = "username") String username){
         return userService.getUserByUsername(username);
     }
 
-    // {prefix}//user/41?username=newtest PATCH
+    // {prefix}/user/41?username=newtest PATCH
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
     public User updateUser(@PathVariable(name = "id") Long id, @RequestParam("username") String username){
         User user = userService.getBy(id);
@@ -41,14 +41,14 @@ public class UserController {
         return user;
     }
 
-    // {prefix}//user/43 PUT
+    // {prefix}/user/43 PUT
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public User updateUser(@PathVariable(name = "id") Long id, @RequestBody User updatedUser){
         updatedUser.setUserId(id);
         updatedUser = userService.update(updatedUser);
         return updatedUser;
     }
-
+    // {prefix}/user/ POST
     @RequestMapping(value = "", method = RequestMethod.POST)
     public User create(@RequestBody User newUser){
         User user = userService.save(newUser);
