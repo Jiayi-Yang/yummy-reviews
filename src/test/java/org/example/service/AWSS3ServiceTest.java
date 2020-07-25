@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +29,9 @@ public class AWSS3ServiceTest {
     private AmazonS3 amazonS3;
     @Autowired
     private AWSS3Service awss3Service;
+    String filePath = "/Users/jay/Downloads/logo.png";
+    String bucketName = "jyang-s3-bucket-test";
+
     @Test
     public void createBucketTest(){
         String bucketName = "jyang-s3-bucket-test2";
@@ -37,13 +41,15 @@ public class AWSS3ServiceTest {
 
     @Test
     public void uploadFileTest() throws IOException{
-        awss3Service.uploadFile(new File("/Users/jay/Downloads/logo.png"));
+        awss3Service.uploadFile(new File(filePath));
         verify(amazonS3,times(1)).putObject(any(PutObjectRequest.class));
     }
 
-    @Test
-    public void uploadFileUUIDTest() throws IOException{
-        awss3Service.uploadFileUUID(new File("/Users/jay/Downloads/logo.png"));
-        verify(amazonS3,times(1)).putObject(any(PutObjectRequest.class));
-    }
+//    @Test
+//    public void uploadFileUUIDTest() throws IOException{
+//        awss3Service.uploadFileUUID(bucketName, new MultipartFile(filePath) {
+//        });
+//        verify(amazonS3,times(1)).putObject(any(PutObjectRequest.class));
+//    }
+
 }
