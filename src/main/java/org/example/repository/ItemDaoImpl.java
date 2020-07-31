@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -16,11 +17,13 @@ import java.util.List;
 
 @Repository
 public class ItemDaoImpl implements ItemDao{
+    @Autowired
+    private SessionFactory sessionFactory;
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Override
     public Item save(Item item) {
         Transaction transaction = null;
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
@@ -39,7 +42,7 @@ public class ItemDaoImpl implements ItemDao{
     @Override
     public Item update(Item item) {
         Transaction transaction = null;
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
@@ -59,7 +62,7 @@ public class ItemDaoImpl implements ItemDao{
         String hql = "DELETE Item as i WHERE i.itemId = :Id";
         int deletedCount = 0;
         Transaction transaction = null;
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
@@ -79,7 +82,7 @@ public class ItemDaoImpl implements ItemDao{
 
     @Override
     public List<Item> getItems() {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         String hql = "FROM Item";
         s.createQuery(hql);
@@ -97,7 +100,7 @@ public class ItemDaoImpl implements ItemDao{
 
     @Override
     public Item getBy(Long id) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         String hql = "FROM Item i WHERE i.itemId=:Id";
         s.createQuery(hql);

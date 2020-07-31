@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -16,11 +17,13 @@ import java.util.List;
 
 @Repository
 public class RatingDaoImpl implements RatingDao{
+    @Autowired
+    private SessionFactory sessionFactory;
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Override
     public Rating save(Rating rating) {
         Transaction transaction = null;
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
@@ -46,7 +49,7 @@ public class RatingDaoImpl implements RatingDao{
         String hql = "DELETE Rating as r WHERE r.ratingId = :Id";
         int deletedCount = 0;
         Transaction transaction = null;
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
@@ -66,7 +69,7 @@ public class RatingDaoImpl implements RatingDao{
 
     @Override
     public List<Rating> getRatings() {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         String hql = "FROM Rating";
         s.createQuery(hql);

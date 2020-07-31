@@ -17,14 +17,14 @@ import java.util.List;
 
 @Repository
 public class RoleDaoImpl implements RoleDao{
-//    @Autowired
-//    private SessionFactory sessionFactory;
+    @Autowired
+    private SessionFactory sessionFactory;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Override
     public Role save(Role role) {
         Transaction transaction = null;
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
@@ -43,7 +43,7 @@ public class RoleDaoImpl implements RoleDao{
     @Override
     public Role update(Role role) {
         Transaction transaction = null;
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
@@ -63,7 +63,7 @@ public class RoleDaoImpl implements RoleDao{
         String hql = "DELETE Role as r WHERE r.id = :id";
         int deletedCount = 0;
         Transaction transaction = null;
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
@@ -83,7 +83,7 @@ public class RoleDaoImpl implements RoleDao{
 
     @Override
     public List<Role> getRoles() {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         String hql = "FROM Role";
         s.createQuery(hql);
@@ -101,7 +101,7 @@ public class RoleDaoImpl implements RoleDao{
 
     @Override
     public Role getBy(Long id) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         String hql = "FROM Role r WHERE r.id=:Id";
         s.createQuery(hql);
@@ -120,7 +120,7 @@ public class RoleDaoImpl implements RoleDao{
 
     @Override
     public Role getRolebyName(String name) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         String hql = "FROM Role r WHERE r.name=:name";
         s.createQuery(hql);

@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -16,11 +17,13 @@ import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao{
+    @Autowired
+    private SessionFactory sessionFactory;
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Override
     public User save(User user) {
         Transaction transaction = null;
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
@@ -39,7 +42,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public User update(User user) {
         Transaction transaction = null;
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
@@ -59,7 +62,7 @@ public class UserDaoImpl implements UserDao{
         String hql = "DELETE User as u WHERE u.userId = :Id";
         int deletedCount = 0;
         Transaction transaction = null;
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         try {
             transaction = s.beginTransaction();
@@ -79,7 +82,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public List<User> getUsers() {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         String hql = "FROM User";
         s.createQuery(hql);
@@ -97,7 +100,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getBy(Long id) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         String hql = "FROM User u WHERE u.userId=:Id";
         s.createQuery(hql);
@@ -117,7 +120,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public User getUserEagerBy(Long id) {
         String hql = "From User u LEFT JOIN FETCH u.ratings WHERE u.userId=:Id";
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         s.createQuery(hql);
         try {
@@ -135,7 +138,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getUserByEmail(String email) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         String hql = "FROM User u WHERE u.email=:email";
         s.createQuery(hql);
@@ -154,7 +157,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getUserByUsername(String username) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         String hql = "FROM User u WHERE u.username=:username";
         s.createQuery(hql);
@@ -173,7 +176,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getUserByCredentials(String username, String password) {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session s = sessionFactory.openSession();
         String hql = "FROM User u WHERE u.username=:username AND u.password=:password";
         s.createQuery(hql);

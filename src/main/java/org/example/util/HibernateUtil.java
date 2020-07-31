@@ -13,10 +13,10 @@ import org.slf4j.Logger;
 import java.util.Properties;
 
 public class HibernateUtil {
-    private static SessionFactory sessionFactory;
-    private static Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
+    private SessionFactory sessionFactory;
+    private Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
 
-    public static SessionFactory getSessionFactory() {
+    public SessionFactory getSessionFactory() {
         try {
             if(sessionFactory == null){
                 String[] modelPackages = {"org.example.model"};
@@ -50,10 +50,10 @@ public class HibernateUtil {
         return sessionFactory;
     }
 
-    public static void main(String[] args) {
-        SessionFactory sf = HibernateUtil.getSessionFactory();
-        logger.info("success generate session factory " + sf.hashCode());
-        Session s = sf.openSession();
-        s.close();
-    }
+//    public static void main(String[] args) {
+//        SessionFactory sf = HibernateUtil.getSessionFactory();
+//        logger.info("success generate session factory " + sf.hashCode());
+//        Session s = sf.openSession();
+//        s.close();
+//    }
 }
