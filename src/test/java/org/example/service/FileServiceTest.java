@@ -23,25 +23,25 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= ApplicationBootstrap.class)
-public class AWSS3ServiceTest {
+public class FileServiceTest {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private AmazonS3 amazonS3;
     @Autowired
-    private AWSS3Service awss3Service;
+    private FileService fileService;
     String filePath = "/Users/jay/Downloads/logo.png";
     String bucketName = "jyang-s3-bucket-test";
 
     @Test
     public void createBucketTest(){
-        String bucketName = "jyang-s3-bucket-test2";
-        Bucket bucket = awss3Service.createBucket(bucketName);
+        String bucketName = "jyang-s3-bucket-test1";
+        Bucket bucket = fileService.createBucket(bucketName);
         Assert.assertNotNull(bucket);
     }
 
     @Test
     public void uploadFileTest() throws IOException{
-        awss3Service.uploadFile(new File(filePath));
+        fileService.uploadFile(new File(filePath));
         verify(amazonS3,times(1)).putObject(any(PutObjectRequest.class));
     }
 

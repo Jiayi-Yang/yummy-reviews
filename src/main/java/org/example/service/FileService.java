@@ -26,12 +26,12 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
-public class AWSS3Service {
+public class FileService {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private AmazonS3 amazonS3;
     String bucketName = "jyang-s3-bucket-test";
 
-    public AWSS3Service(@Autowired AmazonS3 amazonS3){
+    public FileService(@Autowired AmazonS3 amazonS3){
         this.amazonS3 = amazonS3;
     }
 

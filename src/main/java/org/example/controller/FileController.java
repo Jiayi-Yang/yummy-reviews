@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.service.AWSS3Service;
+import org.example.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.io.IOException;
 @RequestMapping(value = {"/files/"})
 public class FileController {
     @Autowired
-    private AWSS3Service awss3Service;
+    private FileService fileService;
     private Logger logger = LoggerFactory.getLogger(getClass());
     String bucketName = "jyang-s3-bucket-test";
 
@@ -26,7 +26,7 @@ public class FileController {
     public String uploadFile(@RequestParam("file") MultipartFile file){
         logger.info("test file name:"+file.getOriginalFilename());
         try {
-            String hashedName = awss3Service.uploadFileUUID(bucketName, file);
+            String hashedName = fileService.uploadFileUUID(bucketName, file);
             return "The file name: " + hashedName + " has been uploaded successfully :)";
         } catch (IOException e) {
            logger.error("upload file error",e);
@@ -36,6 +36,6 @@ public class FileController {
     // {prefix}/files/?filename=docker-commands914e0520-8871-44df-aafd-21a5ef557f1e.txt
     @RequestMapping(value = "", method = RequestMethod.GET,params = {"filename"})
     public String getObject(@RequestParam(name = "filename") String s3key){
-        return awss3Service.getURL(s3key);
+        return fileService.getURL(s3key);
     }
 }
