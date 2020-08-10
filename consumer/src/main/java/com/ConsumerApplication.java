@@ -10,9 +10,11 @@ import com.amazonaws.services.sqs.*;
 @SpringBootApplication(scanBasePackages = "com")
 public class ConsumerApplication {
     public static void main(String[] args) {
-//        SpringApplication.run(ConsumerApplication.class, args);
-        ConfigurableApplicationContext app = SpringApplication.run(ConsumerApplication.class, args);
-        MessageService messageService = app.getBean(MessageService.class);
-        messageService.receiveMessage();
+        SpringApplication.run(ConsumerApplication.class, args);
+//        ConfigurableApplicationContext app = SpringApplication.run(ConsumerApplication.class, args);
+//        MessageService messageService = app.getBean(MessageService.class);
+//        messageService.receiveMessage();
+
+
     }
 }

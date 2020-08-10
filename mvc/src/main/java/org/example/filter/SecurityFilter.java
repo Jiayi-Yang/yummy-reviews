@@ -7,6 +7,7 @@ import org.example.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -29,7 +30,10 @@ public class SecurityFilter implements Filter {
         // 2. remove Bearer to get token
         // 3. decrypt token to get claim
         // 4. verify username info in database from claim
-        // 5. doFilter dispatch to controller
+        // 5. doFilter dispatch to
+        if (userService == null) {
+            SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, servletRequest.getServletContext());
+        }
         int statusCode = authorization((HttpServletRequest)servletRequest);
         if (statusCode == HttpServletResponse.SC_ACCEPTED){
             filterChain.doFilter(servletRequest, servletResponse);
