@@ -25,3 +25,7 @@ Refer to [flyway setup](https://flywaydb.org/documentation/migrations) find all 
 ```$xslt
 mvn clean comple flyway:migrate
 ```
+
+```aidl
+mvn clean compile flyway:migrate -Ddatabase.url -Ddatabase.name -Ddatabase.user -Ddatabase.password
+```
