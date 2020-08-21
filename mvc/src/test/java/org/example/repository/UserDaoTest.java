@@ -84,7 +84,7 @@ public class UserDaoTest {
     @Test
     public void getUsersTest(){
         List<User> users = userDao.getUsers();
-        int expectedNumberOfUser = 1;
+        int expectedNumberOfUser = 4;
         assertEquals(expectedNumberOfUser, users.size());
     }
 

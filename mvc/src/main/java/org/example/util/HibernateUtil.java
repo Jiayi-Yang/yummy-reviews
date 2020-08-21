@@ -16,13 +16,14 @@ public class HibernateUtil {
     private SessionFactory sessionFactory;
     private Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
 
+
     public SessionFactory getSessionFactory() {
         try {
             if(sessionFactory == null){
                 String[] modelPackages = {"org.example.model"};
                 String dbDriver = System.getProperty("database.driver");
                 String dbDialect = System.getProperty("database.dialect");
-                String dbUrl = System.getProperty("database.url");
+                String dbUrl = "jdbc:postgresql://" + System.getProperty("database.url") + ":" + System.getProperty("database.port") +"/" + System.getProperty("database.name");
                 String dbUser = System.getProperty("database.user");
                 String dbPassword = System.getProperty("database.password");
 

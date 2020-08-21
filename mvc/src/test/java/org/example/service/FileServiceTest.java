@@ -32,12 +32,12 @@ public class FileServiceTest {
     String filePath = "/Users/jay/Downloads/logo.png";
     String bucketName = "jyang-s3-bucket-test";
 
-    @Test
-    public void createBucketTest(){
-        String bucketName = "jyang-s3-bucket-test1";
-        Bucket bucket = fileService.createBucket(bucketName);
-        Assert.assertNotNull(bucket);
-    }
+//    @Test
+//    public void createBucketTest(){
+//        String bucketName = "jyang-s3-bucket-test1";
+//        Bucket bucket = fileService.createBucket(bucketName);
+//        Assert.assertNotNull(bucket);
+//    }
 
     @Test
     public void uploadFileTest() throws IOException{
