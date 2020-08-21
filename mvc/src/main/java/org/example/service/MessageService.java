@@ -15,11 +15,10 @@ public class MessageService {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private AmazonSQS sqsClient;
     private String queueUrl;
-    private String queueName = "yummy-standard-queue";
 
     public MessageService(@Autowired AmazonSQS sqsClient){
         this.sqsClient = sqsClient;
-        this.queueUrl = getQueueUrl(queueName);
+        this.queueUrl = getQueueUrl("sqs.name");
     }
 
     public String getQueueUrl(String queueName) {
@@ -29,7 +28,7 @@ public class MessageService {
     }
 
     public void sendMessage(String messageBody, Integer delaySec){
-        this.queueUrl = getQueueUrl(queueName);
+        this.queueUrl = getQueueUrl("sqs.name");
         SendMessageRequest sendMsgRequest = new SendMessageRequest()
                 .withQueueUrl(queueUrl)
                 .withMessageBody(messageBody)
