@@ -27,7 +27,7 @@ public class RoleDaoTest {
     @Before
     public void SetUp(){
         role1 = new Role();
-        role1.setName("VP");
+        role1.setName("SSR");
         role1.setAllowedCreate(true);
         role1.setAllowedDelete(true);
         role1.setAllowedRead(true);

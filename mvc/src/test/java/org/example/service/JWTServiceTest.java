@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Timestamp;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -27,12 +29,17 @@ public class JWTServiceTest {
     private RoleDao roleDao;
     private User user1;
     private Role role1;
+    private String email = "test@gmail.com";
 
     @Before
     public void SetUp(){
         user1 = new User();
-        user1.setUserId(10L);
+        user1.setEmail(email);
+        user1.setPassword("password");
         user1.setUsername("test");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        user1.setCreatedOn(timestamp);
+        user1 = userDao.save(user1);
 
         role1 = new Role();
         role1.setName("VP");
@@ -43,7 +50,7 @@ public class JWTServiceTest {
         role1.setAllowedUpdate(true);
         role1 = roleDao.save(role1);
         user1.addRole(role1);
-        userDao.save(user1);
+        user1 = userDao.save(user1);
     }
 
     @After
