@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -40,22 +41,27 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User update(User user) {
-        Transaction transaction = null;
-//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session s = sessionFactory.openSession();
-        try {
-            transaction = s.beginTransaction();
-            s.saveOrUpdate(user);
-            transaction.commit();
-            return user;
-        } catch (HibernateException e){
-            if (transaction != null) transaction.rollback();
-            s.close();
-            logger.error("unable to update record", e);
-            return null;
-        }
+    public User update(Long id, User newUser) {
+        User oldUser = getBy(id);
+        BeanUtils.copyProperties(newUser, oldUser);
+        return save(oldUser);
     }
+//    public User update(User user) {
+//        Transaction transaction = null;
+////        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        Session s = sessionFactory.openSession();
+//        try {
+//            transaction = s.beginTransaction();
+//            s.saveOrUpdate(user);
+//            transaction.commit();
+//            return user;
+//        } catch (HibernateException e){
+//            if (transaction != null) transaction.rollback();
+//            s.close();
+//            logger.error("unable to update record", e);
+//            return null;
+//        }
+//    }
 
     @Override
     public boolean delete(User user) {

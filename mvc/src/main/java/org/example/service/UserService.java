@@ -15,8 +15,8 @@ public class UserService {
     public User save(User user){
         return userDao.save(user);
     }
-    public User update(User user) {
-        return userDao.update(user);
+    public User update(Long id, User user) {
+        return userDao.update(id, user);
     }
     public boolean delete(User user){
         return userDao.delete(user);

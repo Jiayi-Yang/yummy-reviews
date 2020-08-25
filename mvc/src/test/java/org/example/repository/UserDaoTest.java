@@ -106,10 +106,11 @@ public class UserDaoTest {
 
     @Test
     public void updateUserTest(){
-        User user = userDao.getBy(user1.getUserId());
+        Long userId = user1.getUserId();
+        User user = userDao.getBy(userId);
         assertNotNull(user);
         user.setUsername("newtest");
-        user= userDao.update(user);
+        user= userDao.update(userId,user);
         assertNotNull(user);
         assertEquals(user.getUsername(), "newtest");
     }

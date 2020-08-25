@@ -21,13 +21,13 @@ public class UserRoleController {
     @Autowired
     private RoleService roleService;
 
-    // {prefix}/user/
-    @RequestMapping(value = "/user/", method = RequestMethod.GET)
+    // {prefix}/user
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     public List<User> getUsers(){
         return userService.getUsers();
     }
-    // {prefix}/role/
-    @RequestMapping(value = "/role/", method = RequestMethod.GET)
+    // {prefix}/role
+    @RequestMapping(value = "/role", method = RequestMethod.GET)
     public List<Role> getRoles(){
         return roleService.getRoles();
     }

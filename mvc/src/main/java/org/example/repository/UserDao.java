@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface UserDao{
     User save(User user);
-    User update(User user);
+    User update(Long id, User user);
     boolean delete(User user);
     List<User> getUsers();
     User getBy(Long id);

@@ -9,46 +9,40 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/user/")
+@RequestMapping(value = "/user")
 public class UserController {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private UserService userService;
 
-//    // {prefix}/user/
-//    @RequestMapping(value = "", method = RequestMethod.GET)
-//    public List<User> getUsers(){
-//        return userService.getUsers();
-//    }
     // {prefix}/user/1 GET
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public User getUserById(@PathVariable(name = "id") Long id){
         return userService.getBy(id);
     }
 
-    // {prefix}/user/?username=testuser GET
+    // {prefix}/user/?username=rhang GET
     @RequestMapping(value = "/", method = RequestMethod.GET, params = {"username"})
     public User getUserByUsername(@RequestParam(name = "username") String username){
         return userService.getUserByUsername(username);
     }
 
-    // {prefix}/user/41?username=newtest PATCH
+    // {prefix}/user/99?username=user0824 PATCH
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
     public User updateUser(@PathVariable(name = "id") Long id, @RequestParam("username") String username){
         User user = userService.getBy(id);
         user.setUsername(username);
-        user = userService.update(user);
+        user = userService.update(id, user);
         return user;
     }
 
-    // {prefix}/user/43 PUT
+    // {prefix}/user/99 PUT
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public User updateUser(@PathVariable(name = "id") Long id, @RequestBody User updatedUser){
-//        updatedUser.setUserId(id);
-        updatedUser = userService.update(updatedUser);
+        updatedUser = userService.update(id, updatedUser);
         return updatedUser;
     }
-    // {prefix}/user/ POST
+    // {prefix}/user POST
     @RequestMapping(value = "", method = RequestMethod.POST)
     public User create(@RequestBody User newUser){
         User user = userService.save(newUser);

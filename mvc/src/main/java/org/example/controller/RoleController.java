@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/role/")
+@RequestMapping(value = "/role")
 public class RoleController {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private RoleService roleService;
 
-    // {prefix}/role/ POST
+    // {prefix}/role POST
     @RequestMapping(value = "", method = RequestMethod.POST)
     public Role create(@RequestBody Role newRole) {
         Role role = roleService.save(newRole);

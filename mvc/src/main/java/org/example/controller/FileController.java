@@ -15,7 +15,7 @@ import java.io.IOException;
 
 
 @RestController
-@RequestMapping(value = {"/files/"})
+@RequestMapping(value = {"/files"})
 public class FileController {
     @Autowired
     private FileService fileService;
@@ -33,7 +33,7 @@ public class FileController {
            return null;
         }
     }
-    // {prefix}/files/?filename=docker-commands914e0520-8871-44df-aafd-21a5ef557f1e.txt
+    // {prefix}/files?filename=docker-commands914e0520-8871-44df-aafd-21a5ef557f1e.txt
     @RequestMapping(value = "", method = RequestMethod.GET,params = {"filename"})
     public String getObject(@RequestParam(name = "filename") String s3key){
         return fileService.getURL(s3key);
