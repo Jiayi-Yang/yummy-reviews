@@ -29,7 +29,8 @@ import java.util.UUID;
 public class FileService {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private AmazonS3 amazonS3;
-    String bucketName = "jyang-s3-bucket-test";
+    private String bucketName = System.getProperty("aws.bucket.name");
+
 
     public FileService(@Autowired AmazonS3 amazonS3){
         this.amazonS3 = amazonS3;
