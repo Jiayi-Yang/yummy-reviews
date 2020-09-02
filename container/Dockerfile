@@ -6,6 +6,8 @@ ENV DB_URL = ""
 ENV DB_NAME = ""
 ENV DB_USER = ""
 ENV DB_PASSWORD = ""
+ENV QUEUE = ""
+ENV BUCKET = ""
 
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
 
