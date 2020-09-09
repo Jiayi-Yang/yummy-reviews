@@ -68,5 +68,10 @@ package is only for mvc app war file
 by using `{prefix}/user POST`
 - User login with the username and password
 by using `{prefix}/auth/ POST` to get a JWT token
+
+![UserLogin](https://github.com/Jiayi-Yang/yummy-reviews/attachment/UserLogin.png)
+
 - Notice: JWT token will be expired after one day
 - Include the valid JWT token in the headers to request other APIs
+
+![GetUrl](https://github.com/Jiayi-Yang/yummy-reviews/attachment/GetUrl.png)
